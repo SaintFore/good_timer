@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Timer - 专业番茄钟时间管理</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- 侧边栏导航 -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-clock"></i>
+                <span>Good Timer</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="pomodoro">
+                    <i class="fas fa-play-circle"></i>
+                    <span>番茄钟</span>
+                </li>
+                <li class="nav-item" data-view="tracking">
+                    <i class="fas fa-stopwatch"></i>
+                    <span>时间追踪</span>
+                </li>
+                <li class="nav-item" data-view="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>统计报表</span>
+                </li>
+                <li class="nav-item" data-view="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>设置</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 番茄钟界面 -->
+            <div id="pomodoro-view" class="view active">
+                <div class="pomodoro-container">
+                    <div class="timer-display">
+                        <div class="timer-circle">
+                            <svg class="progress-ring" width="300" height="300">
+                                <circle class="progress-ring-circle" 
+                                        cx="150" cy="150" r="140"
+                                        stroke="#e0e0e0" 
+                                        stroke-width="8" 
+                                        fill="transparent"/>
+                                <circle class="progress-ring-progress" 
+                                        cx="150" cy="150" r="140"
+                                        stroke="#ff6b6b" 
+                                        stroke-width="8" 
+                                        fill="transparent"
+                                        stroke-dasharray="879.646 879.646"
+                                        stroke-dashoffset="0"/>
+                            </svg>
+                            <div class="timer-content">
+                                <div class="timer-time" id="timer-display">25:00</div>
+                                <div class="timer-phase" id="timer-phase">准备开始</div>
+                                <div class="session-counter">
+                                    <span id="session-count">0</span>/4 番茄钟
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timer-controls">
+                        <button id="start-btn" class="btn btn-primary">
+                            <i class="fas fa-play"></i>
+                            开始
+                        </button>
+                        <button id="pause-btn" class="btn btn-secondary" disabled>
+                            <i class="fas fa-pause"></i>
+                            暂停
+                        </button>
+                        <button id="skip-btn" class="btn btn-outline" disabled>
+                            <i class="fas fa-step-forward"></i>
+                            跳过
+                        </button>
+                        <button id="reset-btn" class="btn btn-outline">
+                            <i class="fas fa-redo"></i>
+                            重置
+                        </button>
+                    </div>
+
+                    <div class="today-stats">
+                        <h3>今日统计</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="today-pomodoros">0</div>
+                                <div class="stat-label">完成番茄钟</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="today-time">0h 0m</div>
+                                <div class="stat-label">专注时间</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="today-breaks">0</div>
+                                <div class="stat-label">休息次数</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时间追踪界面 -->
+            <div id="tracking-view" class="view">
+                <div class="tracking-container">
+                    <div class="tracking-header">
+                        <h2>时间追踪</h2>
+                        <button id="new-project-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            新建项目
+                        </button>
+                    </div>
+
+                    <div class="tracking-controls">
+                        <div class="current-task">
+                            <select id="project-select" class="form-control">
+                                <option value="">选择项目...</option>
+                            </select>
+                            <input type="text" id="task-description" class="form-control" placeholder="任务描述...">
+                            <button id="start-tracking" class="btn btn-success">
+                                <i class="fas fa-play"></i>
+                                开始计时
+                            </button>
+                            <button id="stop-tracking" class="btn btn-danger" disabled>
+                                <i class="fas fa-stop"></i>
+                                停止计时
+                            </button>
+                        </div>
+                        <div class="current-duration" id="current-duration">00:00:00</div>
+                    </div>
+
+                    <div class="time-entries">
+                        <h3>时间记录</h3>
+                        <div class="entries-filter">
+                            <input type="date" id="date-filter" class="form-control">
+                            <select id="project-filter" class="form-control">
+                                <option value="">所有项目</option>
+                            </select>
+                        </div>
+                        <div id="entries-list" class="entries-list">
+                            <!-- 时间记录将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 统计报表界面 -->
+            <div id="reports-view" class="view">
+                <div class="reports-container">
+                    <div class="reports-header">
+                        <h2>统计报表</h2>
+                        <div class="date-range">
+                            <select id="period-select" class="form-control">
+                                <option value="today">今天</option>
+                                <option value="week">本周</option>
+                                <option value="month">本月</option>
+                                <option value="custom">自定义</option>
+                            </select>
+                            <div id="custom-dates" class="custom-dates" style="display: none;">
+                                <input type="date" id="start-date" class="form-control">
+                                <input type="date" id="end-date" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reports-summary">
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <div class="summary-value" id="total-time">0h 0m</div>
+                                <div class="summary-label">总工作时间</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-value" id="total-sessions">0</div>
+                                <div class="summary-label">完成番茄钟</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-value" id="avg-session">0m</div>
+                                <div class="summary-label">平均时长</div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-value" id="productivity-score">0%</div>
+                                <div class="summary-label">效率评分</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-section">
+                            <h3>时间分布</h3>
+                            <canvas id="time-chart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="chart-section">
+                            <h3>项目时间占比</h3>
+                            <canvas id="project-chart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="goals-section">
+                        <h3>目标设定</h3>
+                        <div class="goals-grid">
+                            <div class="goal-item">
+                                <label>每日目标时间（小时）</label>
+                                <input type="number" id="daily-goal" class="form-control" min="1" max="12" value="8">
+                            </div>
+                            <div class="goal-item">
+                                <label>每日番茄钟目标</label>
+                                <input type="number" id="pomodoro-goal" class="form-control" min="1" max="20" value="8">
+                            </div>
+                        </div>
+                        <div class="goal-progress">
+                            <div class="progress-item">
+                                <label>今日时间进度</label>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="time-progress" style="width: 0%"></div>
+                                </div>
+                                <span id="time-progress-text">0/8小时</span>
+                            </div>
+                            <div class="progress-item">
+                                <label>今日番茄钟进度</label>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="pomodoro-progress" style="width: 0%"></div>
+                                </div>
+                                <span id="pomodoro-progress-text">0/8个</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置界面 -->
+            <div id="settings-view" class="view">
+                <div class="settings-container">
+                    <h2>设置</h2>
+                    
+                    <div class="settings-section">
+                        <h3>番茄钟设置</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label for="pomodoro-time">工作时间（分钟）</label>
+                                <input type="number" id="pomodoro-time" class="form-control" min="1" max="60" value="25">
+                            </div>
+                            <div class="setting-item">
+                                <label for="short-break-time">短休息时间（分钟）</label>
+                                <input type="number" id="short-break-time" class="form-control" min="1" max="30" value="5">
+                            </div>
+                            <div class="setting-item">
+                                <label for="long-break-time">长休息时间（分钟）</label>
+                                <input type="number" id="long-break-time" class="form-control" min="1" max="60" value="15">
+                            </div>
+                            <div class="setting-item">
+                                <label for="long-break-interval">长休息间隔（番茄钟数）</label>
+                                <input type="number" id="long-break-interval" class="form-control" min="2" max="8" value="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>通知设置</h3>
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="sound-enabled" checked>
+                                    <span>启用声音提醒</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="notification-enabled" checked>
+                                    <span>启用桌面通知</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>数据管理</h3>
+                        <div class="settings-actions">
+                            <button id="export-data" class="btn btn-outline">
+                                <i class="fas fa-download"></i>
+                                导出数据
+                            </button>
+                            <button id="import-data" class="btn btn-outline">
+                                <i class="fas fa-upload"></i>
+                                导入数据
+                            </button>
+                            <button id="clear-data" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                                清除所有数据
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-footer">
+                        <button id="save-settings" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            保存设置
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新建项目</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="project-name">项目名称</label>
+                    <input type="text" id="project-name" class="form-control" placeholder="输入项目名称">
+                </div>
+                <div class="form-group">
+                    <label for="project-color">项目颜色</label>
+                    <input type="color" id="project-color" class="form-control" value="#ff6b6b">
+                </div>
+                <div class="form-group">
+                    <label for="project-description">项目描述</label>
+                    <textarea id="project-description" class="form-control" placeholder="项目描述（可选）"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-project" class="btn btn-secondary">取消</button>
+                <button id="save-project" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音频文件 -->
+    <audio id="notification-sound" preload="auto">
+        <!-- 这里可以添加音频文件路径 -->
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
