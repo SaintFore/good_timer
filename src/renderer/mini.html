@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Timer Mini</title>
+    <link rel="stylesheet" href="mini-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="mini-app" class="mini-container">
+        <!-- 小球主体 -->
+        <div class="mini-ball" id="mini-ball">
+            <!-- 进度环 -->
+            <svg class="mini-progress-ring" width="120" height="120">
+                <circle class="mini-progress-bg" 
+                        cx="60" cy="60" r="55"
+                        stroke="#e0e0e0" 
+                        stroke-width="4" 
+                        fill="transparent"/>
+                <circle class="mini-progress-bar" 
+                        cx="60" cy="60" r="55"
+                        stroke="#ff6b6b" 
+                        stroke-width="4" 
+                        fill="transparent"
+                        stroke-dasharray="345.58 345.58"
+                        stroke-dashoffset="0"/>
+            </svg>
+            
+            <!-- 小球内容 -->
+            <div class="mini-content">
+                <div class="mini-time" id="mini-time">25:00</div>
+                <div class="mini-phase" id="mini-phase">●</div>
+            </div>
+            
+            <!-- 控制按钮（悬停显示） -->
+            <div class="mini-controls" id="mini-controls">
+                <button id="mini-start" class="mini-btn mini-btn-start" title="开始">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="mini-pause" class="mini-btn mini-btn-pause" title="暂停" disabled>
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button id="mini-skip" class="mini-btn mini-btn-skip" title="跳过" disabled>
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button id="mini-expand" class="mini-btn mini-btn-expand" title="展开">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 右键菜单 -->
+        <div id="mini-context-menu" class="mini-context-menu">
+            <div class="mini-menu-item" data-action="start">
+                <i class="fas fa-play"></i> 开始
+            </div>
+            <div class="mini-menu-item" data-action="pause">
+                <i class="fas fa-pause"></i> 暂停
+            </div>
+            <div class="mini-menu-item" data-action="skip">
+                <i class="fas fa-step-forward"></i> 跳过
+            </div>
+            <div class="mini-menu-separator"></div>
+            <div class="mini-menu-item" data-action="expand">
+                <i class="fas fa-expand"></i> 展开界面
+            </div>
+            <div class="mini-menu-item" data-action="close">
+                <i class="fas fa-times"></i> 关闭小球
+            </div>
+        </div>
+    </div>
+    
+    <!-- 音频 -->
+    <audio id="mini-notification-sound" preload="auto">
+        <!-- 可以添加音频文件 -->
+    </audio>
+
+    <script src="mini-app.js"></script>
+</body>
+</html>

@@ -8,6 +8,22 @@
 			"group": "build",
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Start Application",
+			"type": "shell",
+			"command": "npm start",
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Development Mode",
+			"type": "shell",
+			"command": "npm run dev",
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

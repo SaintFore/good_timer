@@ -76,6 +76,7 @@ class GoodTimerApp {
         document.getElementById('pause-btn').addEventListener('click', () => this.pauseTimer());
         document.getElementById('skip-btn').addEventListener('click', () => this.skipSession());
         document.getElementById('reset-btn').addEventListener('click', () => this.resetTimer());
+        document.getElementById('mini-mode-btn').addEventListener('click', () => this.toggleMiniMode());
 
         // 时间追踪按钮
         document.getElementById('new-project-btn').addEventListener('click', () => this.showProjectModal());
@@ -879,6 +880,14 @@ class GoodTimerApp {
             this.updateTimeEntries();
             this.updateReports();
             alert('数据已清除');
+        }
+    }
+
+    async toggleMiniMode() {
+        try {
+            await ipcRenderer.invoke('toggle-mini-mode');
+        } catch (error) {
+            console.error('Failed to toggle mini mode:', error);
         }
     }
 }

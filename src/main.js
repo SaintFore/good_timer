@@ -5,6 +5,7 @@ const fs = require('fs');
 class GoodTimerApp {
     constructor() {
         this.mainWindow = null;
+        this.miniWindow = null;
         this.tray = null;
         this.dataPath = path.join(app.getPath('userData'), 'timer-data.json');
         this.initializeData();
@@ -60,6 +61,69 @@ class GoodTimerApp {
         });
     }
 
+    createMiniWindow() {
+        if (this.miniWindow) {
+            this.miniWindow.show();
+            return;
+        }
+
+        this.miniWindow = new BrowserWindow({
+            width: 120,
+            height: 120,
+            frame: false,
+            transparent: true,
+            alwaysOnTop: true,
+            resizable: false,
+            minimizable: false,
+            maximizable: false,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false
+            },
+            show: false,
+            skipTaskbar: true
+        });
+
+        this.miniWindow.loadFile(path.join(__dirname, 'renderer/mini.html'));
+        
+        this.miniWindow.once('ready-to-show', () => {
+            this.miniWindow.show();
+            this.positionMiniWindow();
+        });
+
+        this.miniWindow.on('closed', () => {
+            this.miniWindow = null;
+        });
+
+        // 允许拖拽窗口
+        this.miniWindow.on('move', () => {
+            // 窗口移动时的处理
+        });
+    }
+
+    positionMiniWindow() {
+        if (!this.miniWindow) return;
+        
+        const { screen } = require('electron');
+        const primaryDisplay = screen.getPrimaryDisplay();
+        const { width, height } = primaryDisplay.workAreaSize;
+        
+        // 默认位置在右上角
+        this.miniWindow.setPosition(width - 150, 50);
+    }
+
+    toggleMiniMode() {
+        if (this.miniWindow && this.miniWindow.isVisible()) {
+            // 退出小球模式
+            this.miniWindow.hide();
+            this.mainWindow.show();
+        } else {
+            // 进入小球模式
+            this.mainWindow.hide();
+            this.createMiniWindow();
+        }
+    }
+
     createTray() {
         const iconPath = path.join(__dirname, '../assets/tray-icon.png');
         let trayIcon;
@@ -77,19 +141,29 @@ class GoodTimerApp {
             {
                 label: '显示主界面',
                 click: () => {
+                    if (this.miniWindow && this.miniWindow.isVisible()) {
+                        this.miniWindow.hide();
+                    }
                     this.mainWindow.show();
                 }
             },
             {
+                label: '小球模式',
+                click: () => {
+                    this.toggleMiniMode();
+                }
+            },
+            { type: 'separator' },
+            {
                 label: '开始番茄钟',
                 click: () => {
-                    this.mainWindow.webContents.send('start-pomodoro');
+                    this.sendToActiveWindow('start-pomodoro');
                 }
             },
             {
                 label: '暂停/继续',
                 click: () => {
-                    this.mainWindow.webContents.send('toggle-pause');
+                    this.sendToActiveWindow('toggle-pause');
                 }
             },
             { type: 'separator' },
@@ -106,8 +180,19 @@ class GoodTimerApp {
         this.tray.setToolTip('Good Timer - 番茄钟时间管理');
         
         this.tray.on('double-click', () => {
+            if (this.miniWindow && this.miniWindow.isVisible()) {
+                this.miniWindow.hide();
+            }
             this.mainWindow.show();
         });
+    }
+
+    sendToActiveWindow(message, ...args) {
+        if (this.miniWindow && this.miniWindow.isVisible()) {
+            this.miniWindow.webContents.send(message, ...args);
+        } else if (this.mainWindow && this.mainWindow.isVisible()) {
+            this.mainWindow.webContents.send(message, ...args);
+        }
     }
 
     setupMenu() {
@@ -125,6 +210,13 @@ class GoodTimerApp {
                         label: '导入数据',
                         click: () => {
                             this.importData();
+                        }
+                    },
+                    {
+                        label: '小球模式',
+                        accelerator: 'CmdOrCtrl+M',
+                        click: () => {
+                            this.toggleMiniMode();
                         }
                     },
                     { type: 'separator' },
@@ -145,21 +237,21 @@ class GoodTimerApp {
                         label: '开始番茄钟',
                         accelerator: 'Space',
                         click: () => {
-                            this.mainWindow.webContents.send('start-pomodoro');
+                            this.sendToActiveWindow('start-pomodoro');
                         }
                     },
                     {
                         label: '暂停/继续',
                         accelerator: 'CmdOrCtrl+P',
                         click: () => {
-                            this.mainWindow.webContents.send('toggle-pause');
+                            this.sendToActiveWindow('toggle-pause');
                         }
                     },
                     {
                         label: '跳过当前',
                         accelerator: 'CmdOrCtrl+S',
                         click: () => {
-                            this.mainWindow.webContents.send('skip-current');
+                            this.sendToActiveWindow('skip-current');
                         }
                     }
                 ]
@@ -212,6 +304,17 @@ class GoodTimerApp {
 
         ipcMain.handle('import-data', () => {
             return this.importData();
+        });
+
+        ipcMain.handle('toggle-mini-mode', () => {
+            this.toggleMiniMode();
+        });
+
+        ipcMain.handle('show-main-window', () => {
+            if (this.miniWindow && this.miniWindow.isVisible()) {
+                this.miniWindow.hide();
+            }
+            this.mainWindow.show();
         });
     }
 
