@@ -15,7 +15,7 @@
     "productivity",
     "time-tracking"
   ],
-  "author": "Good Timer",
+  "author": "Merlin",
   "license": "MIT",
   "devDependencies": {
     "electron": "^27.0.0",
@@ -33,7 +33,14 @@
     },
     "files": [
       "src/**/*",
+      "assets/**/*",
       "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets/"
+      }
     ],
     "win": {
       "target": "nsis",
