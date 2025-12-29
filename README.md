@@ -1,177 +1,74 @@
-# Good Timer - 专业番茄钟时间管理应用
+<div align="center">
 
-一个功能完整的桌面番茄钟和时间追踪应用，帮助您提高工作效率。
+# 🍅 GOOD TIMER
 
-## 功能特点
-
-### 🍅 番茄钟模块
-- **经典番茄钟循环**：25分钟工作 + 5分钟休息
-- **智能长休息**：每4个番茄钟后15-30分钟长休息
-- **便捷控制**：一键开始/暂停/跳过
-- **多重提醒**：声音和桌面通知提醒
-- **实时进度**：可视化圆形进度条
-- **小球模式**：迷你浮动小球，始终置顶显示
-
-### ⏱️ 专业时间追踪模块
-- **项目分类管理**：自定义项目和颜色标识
-- **实时时间记录**：精确记录每项任务耗时
-- **数据筛选**：按日期和项目筛选时间记录
-- **详细统计**：每日/每周/每月统计报表
-- **目标设定**：时间目标设定与完成率跟踪
-
-### 📊 智能报表分析
-- **可视化图表**：时间分布和项目占比图表
-- **效率评分**：基于工作习惯的智能评分
-- **进度跟踪**：目标达成情况实时显示
-- **数据导出**：支持数据备份和导入
-
-### ⚙️ 个性化设置
-- **自定义时间**：可调整工作和休息时间
-- **通知控制**：声音和桌面通知开关
-- **数据管理**：数据导出、导入和清除功能
-- **键盘快捷键**：空格键快速开始/暂停
-
-## 安装和运行
-
-### 环境要求
-- Node.js 16 或更高版本
-- npm 或 yarn 包管理器
-
-### 安装步骤
-
-1. **克隆或下载项目**
-   ```bash
-   cd good_timer
-   ```
-
-2. **安装依赖**
-   ```bash
-   npm install
-   ```
-
-3. **运行应用**
-   ```bash
-   npm start
-   ```
-
-4. **开发模式**
-   ```bash
-   npm run dev
-   ```
-
-5. **构建应用**
-   ```bash
-   npm run build
-   ```
-
-## 使用指南
-
-### 番茄钟使用
-1. 点击"开始"按钮开始25分钟工作计时
-2. 工作结束后自动进入5分钟休息
-3. 完成4个工作周期后进入长休息
-4. 可随时暂停、跳过或重置计时器
-5. 点击"小球模式"切换到迷你浮动界面
-
-### 小球模式使用
-1. 在番茄钟界面点击"小球模式"按钮
-2. 小球会浮动在桌面上，始终置顶显示
-3. 单击小球开始/暂停计时
-4. 鼠标悬停显示控制按钮
-5. 右键点击显示菜单选项
-6. 双击小球或点击展开按钮返回主界面
-
-### 时间追踪使用
-1. 创建项目：点击"新建项目"添加项目
-2. 选择项目并输入任务描述
-3. 点击"开始计时"开始记录时间
-4. 工作完成后点击"停止计时"
-
-### 查看统计
-1. 切换到"统计报表"标签
-2. 选择时间范围（今天/本周/本月/自定义）
-3. 查看工作时间分布和项目占比
-4. 设置每日目标并跟踪完成情况
-
-## 快捷键
-
-- **空格键**：开始/暂停番茄钟
-- **Ctrl+P**：暂停/继续
-- **Ctrl+S**：跳过当前阶段
-- **Ctrl+M**：切换小球模式
-- **Ctrl+Q**：退出应用
-- **Esc**：（小球模式下）返回主界面
-
-## 特色功能
-
-### 小球模式
-- 迷你浮动界面，只显示核心计时功能
-- 始终置顶，不干扰其他工作
-- 可拖拽到任意位置
-- 一键切换回完整界面
-- 支持所有基本计时操作
-
-### 系统托盘
-- 应用最小化到系统托盘
-- 右键菜单快速操作
-- 双击托盘图标显示主界面
-
-### 数据持久化
-- 自动保存所有数据到本地
-- 支持数据备份和恢复
-- 应用重启后保持状态
-
-### 响应式设计
-- 适配不同屏幕尺寸
-- 现代化界面设计
-- 流畅的动画效果
-
-## 技术栈
-
-- **Electron**：跨平台桌面应用框架
-- **HTML5/CSS3**：现代化界面
-- **JavaScript**：应用逻辑
-- **Chart.js**：数据可视化
-- **Node.js**：后端支持
-
-## 文件结构
-
-```
-good_timer/
-├── src/
-│   ├── main.js              # 主进程
-│   └── renderer/
-│       ├── index.html       # 主界面
-│       ├── mini.html        # 小球模式界面
-│       ├── styles.css       # 主界面样式
-│       ├── mini-styles.css  # 小球模式样式
-│       ├── app.js          # 主界面逻辑
-│       └── mini-app.js     # 小球模式逻辑
-├── assets/                  # 资源文件
-├── package.json            # 项目配置
-└── README.md              # 说明文档
+```text
+   ______                __     _______ _                     
+  / ____/____  ____  ___/ /    /_  __ /(_)___ ___  ___  _____ 
+ / / __ / __ \/ __ \/ __  /      / /  / / __ `__ \/ _ \/ ___/ 
+/ /_/ / /_/ / /_/ / /_/ /      / /  / / / / / / /  __/ /     
+\____/\____/\____/\__,_/      /_/  /_/_/ /_/ /_/\___/_/      
+                                                              
 ```
 
-## 更新日志
+[![Electron](https://img.shields.io/badge/Electron-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://www.electronjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-### v1.0.0
-- ✅ 完整的番茄钟功能
-- ✅ 专业时间追踪
-- ✅ 统计报表和图表
-- ✅ 数据导入导出
-- ✅ 系统托盘支持
-- ✅ 键盘快捷键
-- ✅ 响应式设计
-- ✅ 小球模式（迷你浮动界面）
+**"Master your focus, reclaim your time with the ultimate desktop companion."**
+掌控专注，与极致的桌面伴侣一同收回你的时间。
 
-## 贡献
+[Quick Start](#-安装和运行) • [Floating Mode](#-小球模式使用) • [Features](#-功能特点) • [Shortcuts](#-快捷键)
 
-欢迎提交 Issue 和 Pull Request 来帮助改进这个项目。
-
-## 许可证
-
-MIT License
+</div>
 
 ---
 
-**Good Timer** - 让时间管理变得简单高效！
+## ✨ 功能特点 (Features)
+
+- 🍅 **Master the Pomodoro Cycle**: 预置经典 25/5 周期与 4 轮循环长休息机制，科学平衡工作与修养。
+- ⏱️ **High-Precision Time Tracking**: 按项目分类记录每一秒的流逝，支持自定义描述，让时间账单清晰可见。
+- 📊 **Insightful Data Analytics**: 交互式 Chart.js 报表，深度剖析时间分布与项目占比，助力效率进化。
+- 🔮 **Floating Mini-Orb Mode**: 独创“浮动小球”模式，始终置顶、极简交互，在不打断心流的前提下提供关键反馈。
+- ⚙️ **Power-User Customization**: 全面自定义计时时长、通知策略与快捷键，打造专属你的效率引擎。
+
+## 📦 安装和运行 (Installation)
+
+### 环境要求
+- **Node.js**: 16.x or higher
+- **Package Manager**: npm / yarn
+
+### 快速起航
+```bash
+git clone https://github.com/SaintFore/good_timer.git
+cd good_timer
+npm install
+npm start
+```
+
+## 🎮 使用指南 (Usage)
+
+### 🔮 小球模式 (Floating Mode)
+1. 在番茄钟主界面点击“小球模式”即可变身为浮动小球。
+2. **单击**: 开始/暂停计时。
+3. **右键**: 调出功能菜单。
+4. **双击**: 瞬间折叠回完整主界面。
+
+### ⌨️ 快捷键 (Shortcuts)
+- `Space`: 启动/暂停番茄钟。
+- `Ctrl + M`: 切换/退出小球模式。
+- `Ctrl + S`: 勇敢跳过当前阶段。
+
+## 🛠️ 技术栈 (Tech Stack)
+
+- **Framework**: Electron (Cross-platform)
+- **Visuals**: HTML5, CSS3, Chart.js
+- **Logic**: Node.js & Renderer-side JavaScript
+- **Persistence**: Local File System / JSON Storage
+
+---
+
+<div align="center">
+Created with ❤️ by <a href="https://github.com/SaintFore">SaintFore</a>
+</div>
